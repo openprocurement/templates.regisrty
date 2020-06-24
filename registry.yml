@@ -1,0 +1,4 @@
+paper0000001:
+    template: "./registry/templates/paper0000001.docx"
+    scheme: "./registry/schematics/paper0000001-scheme.json"
+    form: "./registry/forms/paper0000001-form.json"

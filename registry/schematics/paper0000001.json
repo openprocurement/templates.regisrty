@@ -1,0 +1,280 @@
+{
+    "$id": "http://localhost:8000/contractData.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Person",
+    "type": "object",
+    "properties": {
+        "role": {
+            "type": "string"
+        }
+    },
+    "allOf": [{
+            "if": {
+                "properties": {
+                    "role": {
+                        "const": "process"
+                    }
+                }
+            },
+            "then": {
+                "required": ["buyer", "tender"],
+                "properties": {
+                    "buyer": {
+                        "$ref": "#/definitions/actor"
+                    },
+                    "tender": {
+                        "$ref": "#/definitions/tender"
+                    },
+                    "bid": {
+                        "$ref": "#/definitions/bid"
+                    },
+                    "contract": {
+                        "$ref": "#/definitions/contract"
+                    },
+                    "supplier": {
+                        "$ref": "#/definitions/actor"
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "role": {
+                        "const": "buyer"
+                    }
+                }
+            },
+            "then": {
+                "required": ["buyer"],
+                "properties": {
+                    "buyer": {
+                        "$ref": "#/definitions/actor"
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "role": {
+                        "const": "buyerCorrigenda"
+                    }
+                }
+            },
+            "then": {
+                "required": ["buyer", "supplier"],
+                "properties": {
+                    "buyer": {
+                        "$ref": "#/definitions/actor"
+                    },
+                    "supplier": {
+                        "$ref": "#/definitions/actor"
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "role": {
+                        "const": "supplier"
+                    }
+                }
+            },
+            "then": {
+                "required": ["supplier"],
+                "properties": {
+                    "supplier": {
+                        "$ref": "#/definitions/actor"
+                    }
+                }
+            }
+        }
+    ],
+    "definitions": {
+        "tender": {
+            "type": "object",
+            "required": ["procuringEntity"],
+            "description": "Tender object",
+            "properties": {
+                "procuringEntity": {
+                    "$ref": "#/definitions/organization"
+                }
+            },
+            "additionalProperties": true
+        },
+        "contract": {
+            "type": "object",
+            "required": ["contractNumber", "dateSigned", "value", "suppliers", "items"],
+            "description": "The person's first name.",
+            "properties": {
+                "contractNumber": {
+                    "type": "string"
+                },
+                "dateSigned": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "object",
+                    "required": ["amount", "valueAddedTaxIncluded"],
+                    "properties": {
+                        "amount": {
+                            "type": "number"
+                        },
+                        "amountNet": {
+                            "type": "number"
+                        },
+                        "valueAddedTaxIncluded": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "suppliers": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/organization"
+                    }
+                },
+                "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "required": ["description", "unit", "classification", "deliveryAddress", "quantity"],
+                        "properties": {
+                            "quantity": {
+                                "type": "number"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "unit": {
+                                "type": "object",
+                                "required": ["name"],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "classification": {
+                                "type": "object",
+                                "required": ["id"],
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "deliveryAddress": {
+                                "$ref": "#/definitions/address"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "actor": {
+            "type": "object",
+            "required": ["signatory", "bankAccount"],
+            "properties": {
+                "signatory": {
+                    "$ref": "#/definitions/signatory"
+                },
+                "bankAccount": {
+                    "$ref": "#/definitions/bankAccount"
+                }
+            }
+        },
+        "bid": {},
+        "signatory": {
+            "type": "object",
+            "required": ["genetiveName", "genetiveAuthorityDocument", "position", "name"],
+            "properties": {
+                "genetiveName": {
+                    "type": "string"
+                },
+                "genetiveAuthorityDocument": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "bankAccount": {
+            "type": "object",
+            "required": ["accountIdentification"],
+            "properties": {
+                "accountIdentification": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["id", "scheme"],
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "scheme": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "address": {
+            "type": "object",
+            "required": ["region", "locality", "streetAddress", "postalCode", "countryName"],
+            "properties": {
+                "region": {
+                    "type": "string"
+                },
+                "locality": {
+                    "type": "string"
+                },
+                "streetAddress": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "countryName": {
+                    "type": "string"
+                }
+            }
+        },
+        "organization": {
+            "type": "object",
+            "required": ["name", "identifier", "address"],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "address": {
+                    "$ref": "#/definitions/address"
+                },
+                "identifier": {
+                    "type": "object",
+                    "required": ["id", "scheme"],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "scheme": {
+                            "type": "string"
+                        },
+                        "legalName": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
