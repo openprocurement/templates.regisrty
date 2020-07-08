@@ -1,4 +1,8 @@
 paper0000001:
     template: "./registry/templates/paper0000001.docx"
-    scheme: "./registry/schematics/paper0000001-scheme.json"
-    form: "./registry/forms/paper0000001-form.json"
+    scheme: "./registry/schema/paper0000001.json"
+    form: "./registry/forms/paper0000001.json"
+    title: "Контракт для закупівлi паперу A4"
+    classification:
+      scheme: "ДК 021:2015"
+      id: "30190000-7"
