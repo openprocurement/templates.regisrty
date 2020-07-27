@@ -191,12 +191,9 @@
         "bid": {},
         "signatory": {
             "type": "object",
-            "required": ["genetiveName", "genetiveAuthorityDocument", "position", "name"],
+            "required": ["authorityDocument", "position", "name"],
             "properties": {
-                "genetiveName": {
-                    "type": "string"
-                },
-                "genetiveAuthorityDocument": {
+                "authorityDocument": {
                     "type": "string"
                 },
                 "position": {
