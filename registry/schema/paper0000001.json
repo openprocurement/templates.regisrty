@@ -106,7 +106,7 @@
         },
         "contract": {
             "type": "object",
-            "required": ["dateSigned", "value", "suppliers", "items"],
+            "required": ["value", "suppliers", "items"],
             "description": "The person's first name.",
             "properties": {
                 "contractNumber": {
